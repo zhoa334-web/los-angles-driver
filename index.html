@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Sunset Boulevard | 2023 Toyota Camry TRD</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <canvas id="game"></canvas>
+
+  <!-- ===================== HUD ===================== -->
+  <div id="hud" class="hidden">
+
+    <!-- Location header -->
+    <header class="glass location">
+      <i class="fa-solid fa-location-dot"></i>
+      <div>
+        <h1>Sunset Boulevard, Los Angeles</h1>
+        <p id="district">Sunset Strip, golden hour</p>
+      </div>
+    </header>
+
+    <!-- Minimap -->
+    <div class="glass minimap">
+      <canvas id="minimap" width="240" height="240"></canvas>
+      <span class="minimap-tag"><i class="fa-solid fa-location-arrow"></i> Heading west</span>
+    </div>
+
+    <!-- Paint chip -->
+    <div class="glass paint" id="paintChip">
+      <span class="swatch" id="paintSwatch"></span>
+      <span id="paintName">Supersonic Red</span>
+    </div>
+
+    <!-- Drift readout -->
+    <div class="drift" id="drift">
+      <span class="drift-label">Drift</span>
+      <span class="drift-score" id="driftScore">0</span>
+    </div>
+
+    <!-- Speedometer / gear cluster -->
+    <section class="glass cluster">
+      <div class="pedal">
+        <div class="bar"><i id="barBrake" class="fill brake"></i></div>
+        <i class="fa-solid fa-circle-stop"></i>
+      </div>
+
+      <div class="dial">
+        <svg viewBox="0 0 280 280" aria-hidden="true">
+          <defs>
+            <linearGradient id="rpmGrad" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%"  stop-color="#ffd25e"/>
+              <stop offset="60%" stop-color="#ff8a3d"/>
+              <stop offset="100%" stop-color="#ff3b4e"/>
+            </linearGradient>
+          </defs>
+          <circle class="arc-bg" cx="140" cy="140" r="118" transform="rotate(135 140 140)"/>
+          <circle class="arc-rpm" id="rpmArc" cx="140" cy="140" r="118" transform="rotate(135 140 140)"/>
+        </svg>
+        <div class="dial-center">
+          <div class="speed" id="speed">0</div>
+          <div class="unit">MPH</div>
+          <div class="gears" id="gears">
+            <span data-g="P" class="on">P</span>
+            <span data-g="R">R</span>
+            <span data-g="N">N</span>
+            <span data-g="D">D</span>
+          </div>
+          <div class="gear-num" id="gearNum">gear 1</div>
+        </div>
+      </div>
+
+      <div class="pedal">
+        <div class="bar"><i id="barThrottle" class="fill throttle"></i></div>
+        <i class="fa-solid fa-gauge-high"></i>
+      </div>
+    </section>
+
+    <!-- Controls help -->
+    <aside class="glass help" id="help">
+      <ul>
+        <li><kbd>W</kbd><kbd>S</kbd> throttle / brake, reverse</li>
+        <li><kbd>A</kbd><kbd>D</kbd> steer</li>
+        <li><kbd>Space</kbd> handbrake drift</li>
+        <li><kbd>V</kbd> camera &nbsp; <kbd>L</kbd> headlights</li>
+        <li><kbd>1</kbd>-<kbd>4</kbd> paint &nbsp; <kbd>R</kbd> reset</li>
+        <li><kbd>M</kbd> mute &nbsp; <kbd>H</kbd> hide this</li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- ===================== Start screen ===================== -->
+  <div id="start-screen">
+    <div class="start-card glass">
+      <p class="start-kicker"><i class="fa-solid fa-sun"></i> 6:42 PM, Los Angeles</p>
+      <h2>Sunset Boulevard</h2>
+      <p class="start-sub">2023 Toyota Camry TRD. Three lanes each way, palm trees, and about forty minutes of daylight.</p>
+      <button id="startBtn" type="button"><i class="fa-solid fa-key"></i> Start driving</button>
+      <p class="start-hint" id="loadingText">Building the boulevard...</p>
+    </div>
+  </div>
+
+  <!-- ===================== Libraries (CDN, no build step) ===================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+  <script src="main.js"></script>
+</body>
+</html>
