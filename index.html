@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Sunset Boulevard | 2023 Toyota Camry TRD</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
     <header class="glass location">
       <i class="fa-solid fa-location-dot"></i>
       <div>
-        <h1>Sunset Boulevard, Los Angeles</h1>
+        <h1 id="routeName">Sunset Boulevard, Los Angeles</h1>
         <p id="district">Sunset Strip, golden hour</p>
       </div>
     </header>
@@ -39,11 +39,23 @@
       <span id="paintName">Supersonic Red</span>
     </div>
 
-    <!-- Drift readout -->
-    <div class="drift" id="drift">
-      <span class="drift-label">Drift</span>
-      <span class="drift-score" id="driftScore">0</span>
+    <!-- Top-centre stack: wallet + level, beacon run, drift, toasts -->
+    <div class="center-stack">
+      <div class="glass statbar">
+        <span class="stat-coins"><i class="fa-solid fa-coins"></i> <b id="hudCoins">0</b></span>
+        <span class="stat-lvl"><b id="hudLevel">Lv 1</b><span class="xp"><i id="hudXp"></i></span></span>
+      </div>
+      <div class="glass run" id="runBanner"><i class="fa-solid fa-location-crosshairs"></i> <span id="runText"></span></div>
+      <div class="drift" id="drift">
+        <span class="drift-label">Drift</span>
+        <span class="drift-score" id="driftScore">0</span>
+      </div>
+      <div class="toasts" id="toasts"></div>
     </div>
+
+    <!-- Quest tracker + menu button -->
+    <div class="glass tracker" id="tracker"></div>
+    <button type="button" class="glass icon-btn" id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
 
     <!-- Speedometer / gear cluster -->
     <section class="glass cluster">
@@ -96,14 +108,52 @@
     </aside>
   </div>
 
-  <!-- ===================== Start screen ===================== -->
-  <div id="start-screen">
-    <div class="start-card glass">
-      <p class="start-kicker"><i class="fa-solid fa-sun"></i> 6:42 PM, Los Angeles</p>
-      <h2>Sunset Boulevard</h2>
-      <p class="start-sub">2023 Toyota Camry TRD. Three lanes each way, palm trees, and about forty minutes of daylight.</p>
-      <button id="startBtn" type="button"><i class="fa-solid fa-key"></i> Start driving</button>
-      <p class="start-hint" id="loadingText">Building the boulevard...</p>
+  <!-- ===================== Touch controls (phones / tablets only) ===================== -->
+  <div id="touch" class="hidden" aria-label="On-screen controls">
+    <div class="touch-tools">
+      <button type="button" data-act="menu" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+      <button type="button" data-act="camera" aria-label="Change camera"><i class="fa-solid fa-video"></i></button>
+      <button type="button" data-act="lights" aria-label="Headlights"><i class="fa-solid fa-lightbulb"></i></button>
+      <button type="button" data-act="paint"  aria-label="Change paint"><i class="fa-solid fa-palette"></i></button>
+      <button type="button" data-act="mute"   aria-label="Sound"><i class="fa-solid fa-volume-high"></i></button>
+    </div>
+
+    <div class="touch-steer">
+      <button type="button" class="tbtn" data-key="left"  aria-label="Steer left"><i class="fa-solid fa-chevron-left"></i></button>
+      <button type="button" class="tbtn" data-key="right" aria-label="Steer right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <div class="touch-pedals">
+      <button type="button" class="tbtn hb"  data-key="brake" aria-label="Handbrake drift"><i class="fa-solid fa-triangle-exclamation"></i><span>Drift</span></button>
+      <button type="button" class="tbtn brk" data-key="down"  aria-label="Brake and reverse"><i class="fa-solid fa-circle-stop"></i><span>Brake</span></button>
+      <button type="button" class="tbtn gas" data-key="up"    aria-label="Accelerate"><i class="fa-solid fa-gauge-high"></i><span>Gas</span></button>
+    </div>
+  </div>
+
+  <!-- ===================== Main menu (also the showroom) ===================== -->
+  <div id="menu">
+    <div class="menu-panel glass">
+      <div class="menu-head">
+        <div>
+          <p class="menu-kicker"><i class="fa-solid fa-sun"></i> Los Angeles</p>
+          <h2>Boulevard Drive</h2>
+        </div>
+        <div class="wallet" title="Coins"><i class="fa-solid fa-coins"></i><b id="menuCoins">0</b></div>
+      </div>
+
+      <nav class="tabs" id="tabs" aria-label="Main menu">
+        <button type="button" data-tab="drive" class="on"><i class="fa-solid fa-road"></i><span>Drive</span></button>
+        <button type="button" data-tab="garage"><i class="fa-solid fa-car-side"></i><span>Garage</span></button>
+        <button type="button" data-tab="career"><i class="fa-solid fa-trophy"></i><span>Career</span></button>
+        <button type="button" data-tab="quests"><i class="fa-solid fa-list-check"></i><span>Quests</span></button>
+      </nav>
+
+      <div class="tab-body" id="tabBody"></div>
+
+      <div class="menu-foot">
+        <button id="startBtn" type="button"><i class="fa-solid fa-key"></i> <span id="startLabel">Start driving</span></button>
+        <p class="start-hint" id="loadingText">Building the boulevard...</p>
+      </div>
     </div>
   </div>
 
