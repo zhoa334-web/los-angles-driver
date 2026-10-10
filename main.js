@@ -2444,6 +2444,7 @@ function boot() {
   applyRoute(levelInfo(Save.data.xp).lvl >= r.level ? r : ROUTES[0]);
   setWorldVisible(false);
 
+  if (IS_MOBILE) setupTouch();   // wire the on-screen gas/brake/steer buttons
   ready = true;
   menuUI.hint.textContent = IS_MOBILE ? 'Tap Start. Drive with the on-screen buttons.' : 'Press Enter to start. Esc opens this menu any time.';
   renderMenu();
